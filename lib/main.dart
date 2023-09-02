@@ -14,8 +14,8 @@ class main_screen extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/out',
       routes: {
-        '/out': (context) => output_screen(),
-        '/input': (context) => input_screen(),
+        '/out': (context) => output_ui(),
+        '/input': (context) => input_ui(),
       },
     );
   }
