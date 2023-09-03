@@ -2,10 +2,29 @@
 
 import 'package:flutter/material.dart';
 
+var chat_ls = <ChatBubble>[];
+
 class output_ui extends StatelessWidget {
   @override
   //当组件被调用时,会触发build函数
   Widget build(BuildContext context) {
+
+    //传递一个message过来
+    var message = ModalRoute.of(context)?.settings.arguments as String?;
+
+
+    if (message != null) {
+      // 参数不为空，可以使用它
+      if(message == "") {
+        message = "什么也没输入呢(ᗜ ˰ ᗜ)";
+        chat_ls.add(ChatBubble(text: message));
+      }
+      else {
+        message = "(ᗜ ˰ ᗜ)检测到输入:$message";
+        chat_ls.add(ChatBubble(text: message));
+      }
+    }
+
 
     return MaterialApp(
       //顺序构建
@@ -16,31 +35,23 @@ class output_ui extends StatelessWidget {
 
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // 在悬浮按钮被点击时执行的操作
-            // 您可以在这里添加您的逻辑，例如导航或显示对话框
+            // 处理点击事件
+            print('FloatingActionButton Clicked');
             Navigator.pushNamed(context, '/input');
-          }, // 在悬浮按钮上显示的文本
-          backgroundColor: Colors.blue.withOpacity(0.75), // 悬浮按钮的背景颜色
-          shape: CircleBorder(),
-
+            // 在此处执行你的操作
+          },
           child: const Text(
-            "+",
+            "?",
 
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 24.0,
             ),
-
           ),
-
         ),
 
       ),
-
-
-
-
 
     );
   }
@@ -48,17 +59,15 @@ class output_ui extends StatelessWidget {
 }
 
 
-
 class ChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
     return ListView.builder(
-      itemCount: 100, // 100个聊天框
-      itemBuilder: (BuildContext context, int index) {
-        return ChatBubble(
-          text: 'Message $index:测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试',
-
+      itemCount: chat_ls.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: chat_ls[index]
         );
       },
     );
@@ -73,7 +82,7 @@ class ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0,horizontal: 20.0),
+      margin: EdgeInsets.symmetric(vertical: 15.0,horizontal: 20.0),
       padding: EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
