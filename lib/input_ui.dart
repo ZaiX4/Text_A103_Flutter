@@ -24,37 +24,42 @@ class input_ui extends StatelessWidget {
 
           alignment: Alignment.center,
 
-          child: Column(
+          child: ListView(
             children: [
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: TextFormField(
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: TextFormField(
 
-                  maxLines: 20,
-                  minLines: 10,
-                  controller: get_input_text,
-                  decoration: const InputDecoration(
-                    hintText: '输入',
+                      maxLines: 200,
+                      minLines: 10,
+                      controller: get_input_text,
+                      decoration: const InputDecoration(
+                        hintText: '输入',
+                      ),
+                    ),
                   ),
-                ),
-              ),
 
-              ElevatedButton(
+                  ElevatedButton(
 
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/output',
-                    arguments: get_input_text.text,
-                  );
-                },
-                child: const Text(
-                    '发送'
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/output',
+                        arguments: get_input_text.text,
+                      );
+                    },
+                    child: const Text(
+                        '发送'
 
-                ),
-              ),
+                    ),
+                  ),
+                ],
+              )
             ],
           )
+
       ),
 
     );

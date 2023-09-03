@@ -20,7 +20,7 @@ class output_ui extends StatelessWidget {
         chat_ls.add(ChatBubble(text: message));
       }
       else {
-        message = "(ᗜ ˰ ᗜ)检测到输入:$message";
+        message = "(ᗜ ˰ ᗜ)检测到输入:\n$message";
         chat_ls.add(ChatBubble(text: message));
       }
     }
