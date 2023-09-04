@@ -3,6 +3,8 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'output_ui.dart';
 import 'input_ui.dart';
 
+import 'package:provider/provider.dart';
+
 
 void main() {
   FlutterDisplayMode.setHighRefreshRate();
@@ -21,7 +23,9 @@ class main_screen extends StatelessWidget {
         '/input': (context) => input_ui(),
       },
     );
+
+
+    //2023.9.4 A5版本
+
   }
-
-
 }

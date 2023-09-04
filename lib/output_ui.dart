@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 
 var chat_ls = <ChatBubble>[];
 
+extension ListAddToFrontExtension<T> on List<T> {
+  void add_f(T elementToAdd) {
+    insert(0, elementToAdd);
+  }
+}
 
+//主输出界面
 class output_ui extends StatelessWidget {
   @override
   //当组件被调用时,会触发build函数
@@ -18,11 +24,11 @@ class output_ui extends StatelessWidget {
       // 参数不为空，可以使用它
 
       if(message == "") {
-        chat_ls.add(ChatBubble(text: "(ᗜ ˰ ᗜ)什么也没输入呢",id: chat_ls.length+1,));
+        chat_ls.add_f(ChatBubble(text: "(ᗜ ˰ ᗜ)什么也没输入呢",id: chat_ls.length+1,));
       }
       else {
-        chat_ls.add(ChatBubble(text: "(ᗜ ˰ ᗜ)检测到输入:",id: chat_ls.length+1,));
-        chat_ls.add(ChatBubble(text: "[user_input]\n$message",id: chat_ls.length+1,));
+        chat_ls.add_f(ChatBubble(text: "(ᗜ ˰ ᗜ)检测到输入:",id: chat_ls.length+1,));
+        chat_ls.add_f(ChatBubble(text: "[user_input]\n$message",id: chat_ls.length+1,));
       }
     }
 
@@ -47,6 +53,7 @@ class output_ui extends StatelessWidget {
           ]
         ),
 
+        //悬浮按钮
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue.withOpacity(0.75), // 设置透明度
           onPressed: () {
@@ -78,6 +85,7 @@ class ChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    //列表
     return ListView.builder(
 
       itemCount: chat_ls.length,
