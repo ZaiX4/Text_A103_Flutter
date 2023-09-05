@@ -12,6 +12,8 @@ var chat_id = 1;
 
 var new_message_num = 0;
 
+var out_put_ui_context;
+
 //扩展方法,我乱写的
 extension ListAddToFrontExtension<T> on List<T> {
 
@@ -48,6 +50,8 @@ Future<void> add_gpt_chat(String message) async {
       break;
     }
   }
+  Navigator.pushNamed(out_put_ui_context, '/output');
+
 
 }
 
@@ -60,6 +64,8 @@ class output_ui extends StatelessWidget {
   output_ui({super.key});
 
   Widget build(BuildContext context) {
+
+    out_put_ui_context = context;
 
     //传递一个message过来
     var message = ModalRoute.of(context)?.settings.arguments as String?;

@@ -25,7 +25,8 @@ Future<String> get_gpt_text(String message) async {
   http.StreamedResponse response = await request.send();
 
   if (response.statusCode == 200) {
-    return await response.stream.bytesToString();
+    var ss = await response.stream.bytesToString();
+    return json.decode(ss)['choices'][0]['message']['content'].toString();
   }
   else {
     return response.reasonPhrase.toString();
