@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import '/function/gpt.dart';
 part 'chat_list.dart';
@@ -6,21 +8,49 @@ part 'text_divider.dart';
 
 
 var all_chat_ls = <Widget>[];
-var new_chat_ls = <Widget>[];
-var Chat_id = 1;
+var chat_id = 1;
 
-//扩展方法
+var new_message_num = 0;
+
+//扩展方法,我乱写的
 extension ListAddToFrontExtension<T> on List<T> {
 
   void add_f(T elementToAdd) {
-    insert(0, elementToAdd);
+    if(elementToAdd is text_divider){
+      new_message_num = 0;
+      insert(0 , elementToAdd);
+    }
+    else {
+      insert(0 + (new_message_num++), elementToAdd);
+    }
   }
+
   void addAll_f(List<T> elementToAdd){
     for(var i=0;i<elementToAdd.length;++i){
       add_f(elementToAdd[i]);
     }
   }
 }
+
+
+
+//这个是用来召唤gpt的
+Future<void> add_gpt_chat(String message) async {
+  var c_chat_id = chat_id;
+  var add = chat_bubble(text: "GPT正在思考中，请稍后...", id: chat_id++);
+  all_chat_ls.add_f(add);
+
+  String ss = await get_gpt_text(message);
+
+  for(var i=0;i<all_chat_ls.length;++i){
+    if(all_chat_ls[i]==add){
+      all_chat_ls[i]=chat_bubble(text: "[GPT]\n$ss", id: c_chat_id);
+      break;
+    }
+  }
+
+}
+
 
 //主输出界面
 class output_ui extends StatelessWidget {
@@ -33,26 +63,25 @@ class output_ui extends StatelessWidget {
 
     //传递一个message过来
     var message = ModalRoute.of(context)?.settings.arguments as String?;
-    new_chat_ls.clear();
 
     if (message != null) {
       // 参数不为空，可以使用它
 
-      var st=Chat_id;
+      var st=chat_id;
 
       if(message == "") {
-        new_chat_ls.add_f(chat_bubble(text: "(ᗜ ˰ ᗜ)什么也没输入呢",id: Chat_id++,));
+        all_chat_ls.add_f(chat_bubble(text: "(ᗜ ˰ ᗜ)什么也没输入呢",id: chat_id++,));
 
       }
       else {
-        new_chat_ls.add_f(chat_bubble(text: "(ᗜ ˰ ᗜ)检测到输入:",id: Chat_id++,));
-        new_chat_ls.add_f(chat_bubble(text: "[user_input]\n$message",id: Chat_id++,));
+        all_chat_ls.add_f(chat_bubble(text: "(ᗜ ˰ ᗜ)检测到输入:",id: chat_id++,));
+        all_chat_ls.add_f(chat_bubble(text: "[user_input]\n$message",id: chat_id++,));
+        add_gpt_chat(message);
 
       }
-      all_chat_ls.addAll_f(new_chat_ls);
       ;
 
-      var ed=Chat_id-1;
+      var ed=chat_id-1;
       String ss=st.toString()+"~"+ed.toString();
       all_chat_ls.add_f(text_divider(text: ss,));
     }

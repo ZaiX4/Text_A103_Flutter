@@ -25,11 +25,10 @@ class _chat_bubble extends State<chat_bubble> with SingleTickerProviderStateMixi
   // 定义动画控制器
   late AnimationController _controller;
 
-
-
   //这里我乱写的,说不定能跑
   late final String text;
   late final int id;
+
 
   _chat_bubble({required this.text, required this.id});
 
@@ -39,7 +38,7 @@ class _chat_bubble extends State<chat_bubble> with SingleTickerProviderStateMixi
     // 初始化动画控制器
     _controller = AnimationController(
 
-      duration: Duration(seconds: 2), vsync: this, // 动画持续时间为2秒
+      duration: Duration(seconds: 1), vsync: this, // 动画持续时间为2秒
     );
 
     // 创建一个补间动画，将宽度从100.0变化到300.0

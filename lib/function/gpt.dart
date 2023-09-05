@@ -2,9 +2,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<String> get_gpt_text() async {
+Future<String> get_gpt_text(String message) async {
   var headers = {
-    'Authorization': 'Bearer fk....',
+    'Authorization': 'Bearer fk213655-B4BA0Go0HuPYSwS5fI9Xbx7N9TNDMMvT',
     'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
     'Content-Type': 'application/json'
   };
@@ -15,7 +15,7 @@ Future<String> get_gpt_text() async {
     "messages": [
       {
         "role": "user",
-        "content": "讲个笑话"
+        "content": message
       }
     ],
     "safe_mode": false
