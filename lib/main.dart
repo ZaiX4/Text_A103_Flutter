@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
-import 'output_ui.dart';
-import 'input_ui.dart';
+import 'ui/output_ui/output_ui.dart';
+import 'ui/input_ui/input_ui.dart';
 
 import 'package:provider/provider.dart';
 
