@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 void main() {
   FlutterDisplayMode.setHighRefreshRate();
   //以界面为基础创建activity
-  output.all_chat_ls.add_f(output.chat_bubble(text:"版本号A101",id:0));
+  output.all_chat_ls.add_f(output.chat_bubble(text:"版本号A101\n开发者:曾华堃",id:0));
   output.all_chat_ls.add_f(output.text_divider(text: "这只是一条分割线",));
   runApp(main_screen());
 }
