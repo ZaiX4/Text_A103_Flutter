@@ -174,13 +174,14 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
   int id=0;
 
   int f=0;
-
+  ReceivePort _receivePort = ReceivePort();
 
   _gpt_chat_bubble({required this.text, required this.id});
 
   void initState() {
     super.initState();
 
+    
     // 初始化动画控制器
     _controller = AnimationController(
 
@@ -200,21 +201,38 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
       });
     });
 
+
     // 启动动画
     _controller.forward();
 
+  }
+  
+  Future<void> wait() async {
+    int f = 1;
 
+    _receivePort.listen((dynamic ss) {
+      f=0;
+      text = ss;
+      text = "[GPT]\n"+text;
+    });
+
+    while(f==1){
+      await Future.delayed(Duration(seconds: 1));
+      setState(() {
+        if(f==1) text += "正在生成文本中...\n";
+      });
+    }
   }
 
   Future<void> gpt() async {
+    wait();
     setState(() {
-      text = "[GPT]\n"+"(ᗜ ˰ ᗜ)正在思考中哦...";
+      text = "[GPT]\n"+"(ᗜ ˰ ᗜ)正在思考中哦...\n";
     });
     // 这里可以执行异步操作，例如加载数据或进行网络请求
     var ss = await get_gpt_text(text);
     setState(() {
-      text = ss;
-      text = "[GPT]\n"+text;
+      _receivePort.sendPort.send(ss);
     });
   }
 

@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import '/function/gpt.dart';
+import 'dart:isolate';
 part 'chat_list.dart';
 part 'chat_bubble.dart';
 part 'text_divider.dart';
