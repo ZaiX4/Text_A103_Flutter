@@ -38,20 +38,9 @@ extension ListAddToFrontExtension<T> on List<T> {
 
 //这个是用来召唤gpt的
 Future<void> add_gpt_chat(String message) async {
-  var c_chat_id = chat_id;
-  var add = chat_bubble(text: "GPT正在思考中，请稍后...", id: chat_id++);
+
+  var add = gpt_chat_bubble(text: message, id: chat_id++);
   all_chat_ls.add_f(add);
-
-  String ss = await get_gpt_text(message);
-
-  for(var i=0;i<all_chat_ls.length;++i){
-    if(all_chat_ls[i]==add){
-      all_chat_ls[i]=chat_bubble(text: "[GPT]\n$ss", id: c_chat_id);
-      break;
-    }
-  }
-  Navigator.pushNamed(out_put_ui_context, '/output');
-
 
 }
 
