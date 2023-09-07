@@ -141,12 +141,11 @@ class _chat_bubble extends State<chat_bubble> with SingleTickerProviderStateMixi
 
 
 
+//注意,在组件内部声明的变量极其不稳定,会随着listview的重载而释放内存,请不要将重要的,可变的变量放到组件内
+Map<int,int>waiting_gpt_flag={};
+Map<int,int>get_gpt_flag={};
 
-
-
-
-
-
+Map<int,String>gpt_text={};
 
 //这里首先继承动态组件,搞出一个State，不知道是啥，能跑就行
 class gpt_chat_bubble extends StatefulWidget {
@@ -174,14 +173,9 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
   //基础
   String text='';
   int id=0;
+  late String this_gpt_text=gpt_text[id]!;
 
-  //请冻结以下变量,以免被listview重载
-  static int waiting_gpt_flag=1;
-  static int get_gpt_flag=1;
-
-  static String gpt_text="";
-
-  static final ReceivePort _receivePort = ReceivePort();
+  final ReceivePort _receivePort = ReceivePort();
 
   _gpt_chat_bubble({required this.text, required this.id});
 
@@ -218,15 +212,19 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
   Future<void> wait() async {
 
     _receivePort.listen((dynamic ss) {
-      waiting_gpt_flag=0;
-      gpt_text = ss;
-      gpt_text = "[GPT]\n"+gpt_text;
+      waiting_gpt_flag[id] = 0;
+      gpt_text[id] = ss;
+      gpt_text[id] = "[GPT]\n"+gpt_text[id]!;
+      this_gpt_text = gpt_text[id]!;
     });
 
-    while(waiting_gpt_flag==1){
+    while(waiting_gpt_flag[id]==1){
       await Future.delayed(Duration(seconds: 1));
       setState(() {
-        if(waiting_gpt_flag==1) gpt_text += "正在生成文本中...\n";
+        if(waiting_gpt_flag[id]==1) {
+          gpt_text[id] = "${gpt_text[id]!}正在生成文本中...\n";
+          this_gpt_text = gpt_text[id]!;
+        }
       });
     }
   }
@@ -235,7 +233,8 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
   Future<void> gpt() async {
     wait();
     setState(() {
-      gpt_text = "[GPT]\n"+"(ᗜ ˰ ᗜ)正在思考中哦...\n";
+      gpt_text[id] = "[GPT]\n"+"(ᗜ ˰ ᗜ)正在思考中哦...\n";
+      this_gpt_text = gpt_text[id]!;
     });
 
     // 这里可以执行异步操作，例如加载数据或进行网络请求
@@ -250,9 +249,9 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
   Widget build(BuildContext context) {
 
     //只执行一次
-    if(get_gpt_flag==1) {
+    if(get_gpt_flag[id]==1) {
       gpt();
-      get_gpt_flag =0;
+      get_gpt_flag[id] =0;
     }
 
     //前面忘了,后面忘了,中间忘了,总之是在自动选择合适的对比度强的颜色方便显示
@@ -290,6 +289,8 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
         (255 * (1 - x)).toInt());
 
 
+
+
     return
       Container(
 
@@ -318,7 +319,7 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
 
         //子组件是一个可以被复制的文本框,请勿修改
         child: SelectableText(
-          '\n$gpt_text\n',
+          '\n$this_gpt_text\n',
           style: TextStyle(
             color: other_color,
             fontWeight: FontWeight.bold,

@@ -19,7 +19,7 @@ var out_put_ui_context;
 extension ListAddToFrontExtension<T> on List<T> {
 
   void add_f(T elementToAdd) {
-    if(elementToAdd is text_divider){
+    if(elementToAdd is id_divider){
       new_message_num = 0;
       insert(0 , elementToAdd);
     }
@@ -39,6 +39,11 @@ extension ListAddToFrontExtension<T> on List<T> {
 
 //这个是用来召唤gpt的
 Future<void> add_gpt_chat(String message) async {
+
+  get_gpt_flag[chat_id]=1;
+  waiting_gpt_flag[chat_id]=1;
+
+  gpt_text[chat_id]="";
 
   var add = gpt_chat_bubble(text: message, id: chat_id++);
   all_chat_ls.add_f(add);
@@ -79,7 +84,7 @@ class output_ui extends StatelessWidget {
 
       var ed=chat_id-1;
       String ss=st.toString()+"~"+ed.toString();
-      all_chat_ls.add_f(text_divider(text: ss,));
+      all_chat_ls.add_f(id_divider(text: ss,));
     }
 
 
