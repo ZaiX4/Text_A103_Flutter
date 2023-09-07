@@ -38,6 +38,32 @@ Future<String> get_gpt_text(String message) async {
 
 }
 
+Future<String> get_piture_url(String message) async {
+  var headers = {
+    'Authorization': 'Bearer fk213655-B4BA0Go0HuPYSwS5fI9Xbx7N9TNDMMvT',
+    'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
+    'Content-Type': 'application/json'
+  };
+  var request = http.Request('POST', Uri.parse('https://oa.api2d.net/v1/images/generations'));
+  request.body = json.encode({
+    "prompt": message,
+    "response_format": "url",
+    "size": "512x512"
+  });
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    var ss = await response.stream.bytesToString();
+    return json.decode(ss)['data'][0]['url'];
+  }
+  else {
+  return response.reasonPhrase.toString();
+  }
+
+}
+
 /*
 变量协议:
   //首先我需要一个稳定可变的text
@@ -74,7 +100,7 @@ Future<void> gpt(var id) async {
   ReceivePort _receivePort = ReceivePort();
   wait(id,_receivePort);
   //先改text
-  ui_map.m.change(id, "text", "[GPT]\n"+"(ᗜ ˰ ᗜ)正在思考中哦...\n");
+  ui_map.m.change(id, "text", "(ᗜ ˰ ᗜ)正在思考中哦...\n");
   ui_map.m.add(id, "text", ui_map.m.get(id, "message")+"\n");
 
   // 这里可以执行异步操作，例如加载数据或进行网络请求
@@ -82,4 +108,12 @@ Future<void> gpt(var id) async {
 
   _receivePort.sendPort.send(ss);
 
+}
+
+Future<void> picture(var id) async{
+
+  ui_map.m.change(id, "picture", "https://marketplace.canva.cn/evuJ4/MADw9SevuJ4/1/thumbnail_large/canva-MADw9SevuJ4.jpg");
+  var ss = await get_piture_url(ui_map.m.get(id, "message").toString());
+
+  ui_map.m.change(id, "picture", ss);
 }

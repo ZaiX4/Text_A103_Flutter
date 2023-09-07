@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import '/function/gpt.dart';
+import '/function/web_ai.dart';
 import '/function/ui_map.dart' as ui_map;
 import 'dart:isolate';
 part 'chat_list.dart';
@@ -62,6 +61,7 @@ class output_ui extends StatelessWidget {
         simple_bubble("[user_input]\n$message");
 
         gpt_bubble(message);
+        pic_bubble(message);
       }
       all_chat_ls.add_f(id_divider(text: "这只是一条分割线",));
     }
