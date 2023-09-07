@@ -6,7 +6,8 @@ part of 'output_ui.dart';
 
 //这里首先继承动态组件,搞出一个State，不知道是啥，能跑就行
 class chat_bubble extends StatefulWidget {
-  //这里乱写的,说不定能跑
+
+  //导入参数
   late final String text;
   late final int id;
 
@@ -25,7 +26,7 @@ class _chat_bubble extends State<chat_bubble> with SingleTickerProviderStateMixi
   // 定义动画控制器
   late AnimationController _controller;
 
-  //这里我乱写的,说不定能跑
+  //基础
   late final String text;
   late final int id;
 
@@ -149,7 +150,8 @@ class _chat_bubble extends State<chat_bubble> with SingleTickerProviderStateMixi
 
 //这里首先继承动态组件,搞出一个State，不知道是啥，能跑就行
 class gpt_chat_bubble extends StatefulWidget {
-  //这里乱写的,说不定能跑
+
+  //导入参数
   late final String text;
   late final int id;
 
@@ -169,19 +171,24 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
   // 定义动画控制器
   late AnimationController _controller;
 
-  //这里我乱写的,说不定能跑
+  //基础
   String text='';
   int id=0;
 
-  int f=0;
-  ReceivePort _receivePort = ReceivePort();
+  //请冻结以下变量,以免被listview重载
+  static int waiting_gpt_flag=1;
+  static int get_gpt_flag=1;
+
+  static String gpt_text="";
+
+  static final ReceivePort _receivePort = ReceivePort();
 
   _gpt_chat_bubble({required this.text, required this.id});
 
   void initState() {
+
     super.initState();
 
-    
     // 初始化动画控制器
     _controller = AnimationController(
 
@@ -206,29 +213,31 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
     _controller.forward();
 
   }
-  
+
+  //用于等待gpt信息
   Future<void> wait() async {
-    int f = 1;
 
     _receivePort.listen((dynamic ss) {
-      f=0;
-      text = ss;
-      text = "[GPT]\n"+text;
+      waiting_gpt_flag=0;
+      gpt_text = ss;
+      gpt_text = "[GPT]\n"+gpt_text;
     });
 
-    while(f==1){
+    while(waiting_gpt_flag==1){
       await Future.delayed(Duration(seconds: 1));
       setState(() {
-        if(f==1) text += "正在生成文本中...\n";
+        if(waiting_gpt_flag==1) gpt_text += "正在生成文本中...\n";
       });
     }
   }
 
+  //用于接收gpt信息,开一个新线程
   Future<void> gpt() async {
     wait();
     setState(() {
-      text = "[GPT]\n"+"(ᗜ ˰ ᗜ)正在思考中哦...\n";
+      gpt_text = "[GPT]\n"+"(ᗜ ˰ ᗜ)正在思考中哦...\n";
     });
+
     // 这里可以执行异步操作，例如加载数据或进行网络请求
     var ss = await get_gpt_text(text);
     setState(() {
@@ -240,8 +249,11 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
   @override
   Widget build(BuildContext context) {
 
-    if(f==0)gpt();
-    f =1;
+    //只执行一次
+    if(get_gpt_flag==1) {
+      gpt();
+      get_gpt_flag =0;
+    }
 
     //前面忘了,后面忘了,中间忘了,总之是在自动选择合适的对比度强的颜色方便显示
     //遥遥领先!
@@ -306,7 +318,7 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
 
         //子组件是一个可以被复制的文本框,请勿修改
         child: SelectableText(
-          '\n$text\n',
+          '\n$gpt_text\n',
           style: TextStyle(
             color: other_color,
             fontWeight: FontWeight.bold,
@@ -319,92 +331,3 @@ class _gpt_chat_bubble extends State<gpt_chat_bubble> with SingleTickerProviderS
 
 }
 
-
-
-
-//这是个对话框,A5版本限定
-/**
-class chat_bubble extends StatelessWidget {
-
-  //final是真没必要,但能跑就行
-  final String text;
-  final int id;
-
-  chat_bubble({required this.text,required this.id});
-
-  @override
-  Widget build(BuildContext context) {
-
-    //前面忘了,后面忘了,中间忘了,总之是在自动选择合适的对比度强的颜色方便显示
-    //遥遥领先!
-    var x = (id % 20) *0.05 + 0.05;
-    var y;
-
-    //已经很完美了,这个颜色算法
-    if(x>=0.4&&x<=0.5){
-      x = 0.4;
-    }
-    if(x>=0.5&&x<=0.6){
-      x = 0.6;
-    }
-
-    if(x<=0.5){
-      y = 128-(x*255);
-    }
-    else {
-      y = 255*x/2+128;
-      if(y>=200){
-        y=200;
-      }
-    }
-
-    //透明度
-    x = (id % 20) *0.05 + 0.05;
-
-    //对比色,也可以称作副颜色
-    Color other_color = Color.fromARGB(255, y.toInt(), y.toInt(), y.toInt());
-
-    //背景色哦
-    Color main_color = Color.fromARGB(255, (255*(1-x)).toInt(), (255*(1-x)).toInt(), (255*(1-x)).toInt());
-
-
-    return
-      Container(
-
-        //这里是设置边距,改了就崩
-        margin: EdgeInsets.symmetric(vertical: 15.0,horizontal: 20.0),
-        padding: EdgeInsets.all(12.0),
-
-
-        //这里是设置阴影和颜色
-        decoration: BoxDecoration(
-
-          boxShadow: [
-            BoxShadow(
-              color: other_color, // 阴影颜色
-              spreadRadius: 6, // 阴影扩散半径
-              blurRadius: 0, // 阴影模糊半径
-              offset: Offset(0, 4), // 阴影偏移
-            ),
-          ],
-
-          color: main_color,
-
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-
-
-        //子组件是一个可以被复制的文本框,请勿修改
-        child: SelectableText(
-          '\n$text\n',
-          style: TextStyle(
-            color: other_color,
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0,
-          ),
-        ),
-
-      );
-  }
-}
-*/
