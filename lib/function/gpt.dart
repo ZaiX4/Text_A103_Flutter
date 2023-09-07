@@ -1,6 +1,10 @@
 
 import 'dart:convert';
+import 'dart:isolate';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import '/function/ui_map.dart' as ui_map;
+
 
 Future<String> get_gpt_text(String message) async {
   var headers = {
@@ -31,5 +35,51 @@ Future<String> get_gpt_text(String message) async {
   else {
     return response.reasonPhrase.toString();
   }
+
+}
+
+/*
+变量协议:
+  //首先我需要一个稳定可变的text
+  late String text = ui_map.m.init(id, 'text', "");
+  //然后是稳定的线程数据管理器
+  late ReceivePort _receivePort = ui_map.m.init(id, "_receivePort", ReceivePort());
+  //然后是稳定的啥啊,啊对了,应该是flag,表示是否应该等gpt或者召唤gpt
+  late int wait_gpt_flag = ui_map.m.init(id,"wait_gpt_flag",1);
+  late int get_gpt_flag = ui_map.m.init(id,"get_gpt_flag",1);
+ */
+
+//用于等待gpt信息
+Future<void> wait(var id,var _receivePort) async {
+
+  _receivePort.listen((dynamic ss) {
+    ui_map.m.change(id, "wait_gpt_flag",0);
+    ui_map.m.change(id, "text","[GPT]\n"+ss);
+  });
+
+  while(ui_map.m.get(id, "wait_gpt_flag") == 1){
+    await Future.delayed(Duration(seconds: 1));
+    if(ui_map.m.get(id, "wait_gpt_flag")==1) {
+      ui_map.m.add(id,"text","正在生成文本中...\n");
+    }
+  }
+
+}
+
+//用于接收gpt信息,开一个新线程
+Future<void> gpt(var id) async {
+
+  ui_map.m.init(id, "wait_gpt_flag", 1);
+
+  ReceivePort _receivePort = ReceivePort();
+  wait(id,_receivePort);
+  //先改text
+  ui_map.m.change(id, "text", "[GPT]\n"+"(ᗜ ˰ ᗜ)正在思考中哦...\n");
+  ui_map.m.add(id, "text", ui_map.m.get(id, "message")+"\n");
+
+  // 这里可以执行异步操作，例如加载数据或进行网络请求
+  var ss = await get_gpt_text(ui_map.m.get(id, "message").toString());
+
+  _receivePort.sendPort.send(ss);
 
 }

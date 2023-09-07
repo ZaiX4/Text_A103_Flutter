@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import '/function/gpt.dart';
+import '/function/ui_map.dart' as ui_map;
 import 'dart:isolate';
 part 'chat_list.dart';
 part 'chat_bubble.dart';
@@ -35,22 +37,6 @@ extension ListAddToFrontExtension<T> on List<T> {
   }
 }
 
-
-
-//这个是用来召唤gpt的
-Future<void> add_gpt_chat(String message) async {
-
-  get_gpt_flag[chat_id]=1;
-  waiting_gpt_flag[chat_id]=1;
-
-  gpt_text[chat_id]="";
-
-  var add = gpt_chat_bubble(text: message, id: chat_id++);
-  all_chat_ls.add_f(add);
-
-}
-
-
 //主输出界面
 class output_ui extends StatelessWidget {
   //当组件被调用时,会触发build函数
@@ -66,25 +52,18 @@ class output_ui extends StatelessWidget {
     var message = ModalRoute.of(context)?.settings.arguments as String?;
 
     if (message != null) {
-      // 参数不为空，可以使用它
-
-      var st=chat_id;
 
       if(message == "") {
-        all_chat_ls.add_f(chat_bubble(text: "(ᗜ ˰ ᗜ)什么也没输入呢",id: chat_id++,));
+        simple_bubble("(ᗜ ˰ ᗜ)什么也没输入呢");
 
       }
       else {
-        all_chat_ls.add_f(chat_bubble(text: "(ᗜ ˰ ᗜ)检测到输入:",id: chat_id++,));
-        all_chat_ls.add_f(chat_bubble(text: "[user_input]\n$message",id: chat_id++,));
-        add_gpt_chat(message);
+        simple_bubble("(ᗜ ˰ ᗜ)检测到输入:");
+        simple_bubble("[user_input]\n$message");
 
+        gpt_bubble(message);
       }
-      ;
-
-      var ed=chat_id-1;
-      String ss=st.toString()+"~"+ed.toString();
-      all_chat_ls.add_f(id_divider(text: ss,));
+      all_chat_ls.add_f(id_divider(text: "这只是一条分割线",));
     }
 
 
