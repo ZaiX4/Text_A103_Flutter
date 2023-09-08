@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 void main() {
   FlutterDisplayMode.setHighRefreshRate();
   //以界面为基础创建activity
-  output.simple_bubble("版本号A106");
+  output.simple_bubble("版本号A10X");
   output.all_chat_ls.add_f(output.id_divider(text: "开发:曾华堃",));
   runApp(main_screen());
 }

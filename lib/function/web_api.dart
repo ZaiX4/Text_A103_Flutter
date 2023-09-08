@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'dart:isolate';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '/function/ui_map.dart' as ui_map;
@@ -48,7 +49,7 @@ Future<String> get_piture_url(String message) async {
   request.body = json.encode({
     "prompt": message,
     "response_format": "url",
-    "size": "512x512"
+    "size": "1024x1024"
   });
   request.headers.addAll(headers);
 
@@ -112,8 +113,8 @@ Future<void> gpt(var id) async {
 
 Future<void> picture(var id) async{
 
-  ui_map.m.change(id, "picture", "https://marketplace.canva.cn/evuJ4/MADw9SevuJ4/1/thumbnail_large/canva-MADw9SevuJ4.jpg");
+  ui_map.m.change(id, "picture", Image.network("https://marketplace.canva.cn/evuJ4/MADw9SevuJ4/1/thumbnail_large/canva-MADw9SevuJ4.jpg"));
   var ss = await get_piture_url(ui_map.m.get(id, "message").toString());
 
-  ui_map.m.change(id, "picture", ss);
+  ui_map.m.change(id, "picture", Image.network(ss));
 }

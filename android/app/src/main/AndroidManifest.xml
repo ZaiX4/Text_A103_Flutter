@@ -9,7 +9,7 @@
 
     <application
 
-        android:label="test_a103"
+        android:label="Xi_XuA"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

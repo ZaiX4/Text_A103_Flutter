@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '/function/web_ai.dart';
+import '/function/web_api.dart';
 import '/function/ui_map.dart' as ui_map;
 import 'dart:isolate';
+import "/command/command.dart";
+
 part 'chat_list.dart';
 part 'chat_bubble.dart';
 part 'text_divider.dart';
@@ -60,8 +62,10 @@ class output_ui extends StatelessWidget {
         simple_bubble("(ᗜ ˰ ᗜ)检测到输入:");
         simple_bubble("[user_input]\n$message");
 
-        gpt_bubble(message);
-        pic_bubble(message);
+        run_command(message);
+
+        //gpt_bubble(message);
+        //pic_bubble(message);
       }
       all_chat_ls.add_f(id_divider(text: "这只是一条分割线",));
     }
