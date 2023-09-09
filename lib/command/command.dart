@@ -1,17 +1,22 @@
 import 'dart:core';
 import 'package:Xi_XuA/ui/output_ui/output_ui.dart';
+import 'package:Xi_XuA/function/web_api.dart' as web_api;
 
 
 void command_ls(String command,String text){
   switch(command){
     case('help'):
-      simple_bubble("懒得写");
+      simple_bubble("指令列表:\n");
       break;
     case('gpt'):
       gpt_bubble(text);
       break;
     case('pic'):
       pic_bubble(text);
+      break;
+    case('gpt4'):
+      web_api.model = "gpt-4";
+      gpt_bubble(text);
       break;
   }
 }
@@ -37,7 +42,7 @@ void run_command(String input){
 
     String matchedText = match.group(1) as String; // 获取匹配到的内容
 
-    simple_bubble("检测到指令:"+matchedText.toString());
+    //simple_bubble("检测到指令:"+matchedText.toString());
 
     command_ls(matchedText,text);
 
@@ -47,7 +52,7 @@ void run_command(String input){
 
     String matchedText = match.group(1) as String; // 获取匹配到的内容
 
-    simple_bubble("检测到指令:"+matchedText.toString());
+    //simple_bubble("检测到指令:"+matchedText.toString());
 
     command_ls(matchedText,text);
 
