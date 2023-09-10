@@ -39,6 +39,7 @@ void pic_bubble(String message){
 
 
 
+
 //以上为构造对话框的函数
 
 class power_chat_bubble extends StatefulWidget {
@@ -188,7 +189,6 @@ class _power_chat_bubble extends State<power_chat_bubble> with SingleTickerProvi
 }
 
 
-
 class picture_chat_bubble extends StatefulWidget {
 
   //参数精简为id
@@ -202,7 +202,7 @@ class _picture_chat_bubble extends State<picture_chat_bubble> with SingleTickerP
 
   late int id;
 
-  var picture=Image.network("https://marketplace.canva.cn/evuJ4/MADw9SevuJ4/1/thumbnail_large/canva-MADw9SevuJ4.jpg");
+  late var picture=ui_map.m.get(id, "picture");
   _picture_chat_bubble({required this.id});
 
   // 定义动画控制器
@@ -338,3 +338,7 @@ class _picture_chat_bubble extends State<picture_chat_bubble> with SingleTickerP
   }
 
 }
+
+
+
+

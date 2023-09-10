@@ -1,6 +1,9 @@
 import 'dart:core';
+import 'package:Xi_XuA/ui/op_ui/op_ui.dart';
 import 'package:Xi_XuA/ui/output_ui/output_ui.dart';
 import 'package:Xi_XuA/function/web_api.dart' as web_api;
+import 'package:flutter/material.dart';
+
 
 
 void command_ls(String command,String text){
@@ -18,6 +21,11 @@ void command_ls(String command,String text){
       web_api.model = "gpt-4";
       gpt_bubble(text);
       break;
+
+    case('op'):
+      Navigator.pushNamed(out_put_ui_context, '/op');
+      break;
+
   }
 }
 

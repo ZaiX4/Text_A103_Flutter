@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '/function/web_api.dart';
 import '/function/ui_map.dart' as ui_map;
 import 'dart:isolate';
@@ -42,7 +43,6 @@ extension ListAddToFrontExtension<T> on List<T> {
 class output_ui extends StatelessWidget {
   //当组件被调用时,会触发build函数
 
-
   output_ui({super.key});
 
   Widget build(BuildContext context) {
@@ -71,6 +71,8 @@ class output_ui extends StatelessWidget {
     }
 
 
+
+
     return MaterialApp(
       //顺序构建
       home: Scaffold(
@@ -78,6 +80,7 @@ class output_ui extends StatelessWidget {
         //内容区域,调用自定义组件
         body: Stack(
             children: <Widget>[
+
               Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
