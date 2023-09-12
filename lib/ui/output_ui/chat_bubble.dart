@@ -39,6 +39,18 @@ void pic_bubble(String message){
 
 
 
+class get_color{
+  //前面忘了,后面忘了,中间忘了,总之是在自动选择合适的对比度强的颜色方便显示
+  //遥遥领先的算法!
+
+  late var id;
+
+  get_color(int id);
+
+
+}
+
+
 
 //以上为构造对话框的函数
 
@@ -95,7 +107,7 @@ class _power_chat_bubble extends State<power_chat_bubble> with SingleTickerProvi
     // 创建一个补间动画，将宽度从100.0变化到300.0,其实就是一个不断变化的数值,变化趋势为线性动画
     Animation<double> widthAnimation = Tween<double>(
       begin: 0.0,
-      end: 255.0,
+      end: 200.0,
     ).animate(_controller);
 
     // 将数值表现到组件自身,这里的A代表透明度
@@ -113,10 +125,10 @@ class _power_chat_bubble extends State<power_chat_bubble> with SingleTickerProvi
   @override
   Widget build(BuildContext context) {
 
-    //前面忘了,后面忘了,中间忘了,总之是在自动选择合适的对比度强的颜色方便显示
-    //遥遥领先的算法!
-    var x = (id % 20) * 0.05 + 0.05;
+    var x;
     var y;
+
+    x = (id % 20) * 0.05 + 0.05;
 
     //已经很完美了,这个颜色算法
     if (x >= 0.4 && x <= 0.5) {
@@ -257,10 +269,10 @@ class _picture_chat_bubble extends State<picture_chat_bubble> with SingleTickerP
   @override
   Widget build(BuildContext context) {
 
-    //前面忘了,后面忘了,中间忘了,总之是在自动选择合适的对比度强的颜色方便显示
-    //遥遥领先的算法!
-    var x = (id % 20) * 0.05 + 0.05;
+    var x;
     var y;
+
+    x = (id % 20) * 0.05 + 0.05;
 
     //已经很完美了,这个颜色算法
     if (x >= 0.4 && x <= 0.5) {
