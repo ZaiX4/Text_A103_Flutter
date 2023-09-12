@@ -67,11 +67,39 @@ flutter:
     - assets/background_image.jpg
     - assets/水神.jpg
     - assets/op.mp4
+    - assets/images/
+    - assets/images/account/
+    - assets/images/account/1.5x/
+    - assets/images/account/2.0x/
+    - assets/images/account/3.0x/
+    - assets/images/account/4.0x/
+    - assets/images/schedule/
+    - assets/images/studyroom_icons/
+    - assets/images/lake_butt_icons/
+    - assets/svg_pics/
+    - assets/svg_pics/lake_butt_icons/
+    - privacy/
+
+  fonts:
+    - family: Fourche
+      fonts:
+        - asset: assets/fonts/en/SFFourcheBoldItalic.ttf
+          style: italic
+
+    - family: Swis
+      fonts:
+        - asset: assets/fonts/en/Swis721-Blk-BT-Black-2.ttf
+
+    - family: ProductSans
+      fonts:
+        - asset: assets/fonts/en/ProductSans-Bold.ttf
+        - asset: assets/fonts/en/ProductSans-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
