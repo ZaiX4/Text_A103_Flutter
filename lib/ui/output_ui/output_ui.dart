@@ -9,6 +9,8 @@ import "/command/command.dart";
 
 import 'package:Xi_XuA/ui/loading_ui/loading.dart';
 
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 part 'chat_list.dart';
 part 'chat_bubble.dart';
 part 'text_divider.dart';
@@ -92,7 +94,7 @@ class output_ui extends StatelessWidget {
                   ),
                 ),
               ),
-              chat_list()
+              power_chat_list()
             ]
         ),
 
