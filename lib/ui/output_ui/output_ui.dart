@@ -7,6 +7,8 @@ import '/function/ui_map.dart' as ui_map;
 import 'dart:isolate';
 import "/command/command.dart";
 
+import 'package:Xi_XuA/ui/loading_ui/loading.dart';
+
 part 'chat_list.dart';
 part 'chat_bubble.dart';
 part 'text_divider.dart';

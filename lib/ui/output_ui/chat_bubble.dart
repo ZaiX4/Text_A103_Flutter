@@ -186,14 +186,20 @@ class _power_chat_bubble extends State<power_chat_bubble> with SingleTickerProvi
 
 
         //子组件是一个可以被复制的文本框,请勿修改
-        child: SelectableText(
-          '\n$text\n',
-          style: TextStyle(
-            color: otherColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 16.0,
-          ),
-        ),
+        child: Column(
+          children:[
+            SelectableText(
+              '\n$text\n',
+              style: TextStyle(
+                color: otherColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+              ),
+            ),
+            Loading(),
+          ],
+
+        )
 
       );
   }
@@ -340,7 +346,9 @@ class _picture_chat_bubble extends State<picture_chat_bubble> with SingleTickerP
                   fontSize: 16.0,
                 ),
               ),
-              picture
+              picture,
+              Text(""),
+              Loading()
 
             ],
           )
