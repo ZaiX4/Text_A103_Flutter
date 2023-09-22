@@ -37,6 +37,13 @@ void pic_bubble(String message){
   picture(i);
 }
 
+void op_bubble(){
+
+  var i = ui_map.m.new_id();
+  all_chat_ls.add_f(op_ui());
+
+}
+
 
 
 class get_color{

@@ -23,7 +23,7 @@ void command_ls(String command,String text){
       break;
 
     case('op'):
-      Navigator.pushNamed(out_put_ui_context, '/op');
+      op_bubble();
       break;
 
   }
