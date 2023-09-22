@@ -26,9 +26,7 @@ class main_screen extends StatelessWidget {
         '/output': (context) => output.output_ui(),
         '/input': (context) => input_ui(),
         '/op': (context) => op_ui(),
-        '/login' (context) => login_ui()
-      },
-    );
+      },    );
 
 
     //2023.9.4 A5版本
