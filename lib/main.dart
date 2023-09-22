@@ -1,3 +1,4 @@
+import 'package:Xi_XuA/ui/login_ui/login_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'ui/output_ui/output_ui.dart' as output;
@@ -24,7 +25,8 @@ class main_screen extends StatelessWidget {
       routes: {
         '/output': (context) => output.output_ui(),
         '/input': (context) => input_ui(),
-        '/op': (context) => op_ui()
+        '/op': (context) => op_ui(),
+        '/login' (context) => login_ui()
       },
     );
 

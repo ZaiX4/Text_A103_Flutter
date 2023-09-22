@@ -16,6 +16,7 @@ part 'chat_bubble.dart';
 part 'text_divider.dart';
 
 
+
 var all_chat_ls = <Widget>[];
 var chat_id = 1;
 
